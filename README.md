@@ -1,26 +1,32 @@
-# polizas-api
+# Prueba de Conocimientos – Desarrollador TI
+
+[![CI](https://github.com/cristianrubioa/pruebati/actions/workflows/ci.yml/badge.svg)](https://github.com/cristianrubioa/pruebati/actions/workflows/ci.yml)
+![Java](https://img.shields.io/badge/Java-21-orange)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4-brightgreen)
+
+## Módulo 2: polizas-api
 
 API de gestión de pólizas. Spring Boot 4 + Java 21, H2 en memoria, sin dependencias externas.
 
-Código en [`polizas-api/`](polizas-api); el `Makefile` raíz orquesta los comandos.
+Código en [`polizas-api/`](polizas-api); el [`Makefile`](Makefile) raíz orquesta los comandos. Arquitectura y CI documentados en [`docs/`](docs).
 
-## Uso
+### Uso
 
 ```bash
 make run          # local, puerto 8080
 make docker-up    # vía Docker Compose
 make test         # JUnit 5 + Mockito + AssertJ
-make lint         # Spotless check
-make format       # Spotless apply
+make lint         # revisa formato con Spotless
+make format       # aplica formato con Spotless
 ```
 
-Al arrancar se cargan 2 pólizas de ejemplo (`DataSeeder`). Swagger UI en http://localhost:8080/swagger-ui/index.html — botón **Authorize** para el `x-api-key`.
+Al arrancar se cargan 2 pólizas de ejemplo ([`DataSeeder`](polizas-api/src/main/java/com/crubio/polizas/DataSeeder.java)). Swagger UI en http://localhost:8080/swagger-ui/index.html — botón **Authorize** para el `x-api-key`.
 
-## Seguridad
+### Seguridad
 
-`/polizas` y `/riesgos` requieren el header `x-api-key: 123456`.
+`/polizas` y `/riesgos` requieren la cabecera `x-api-key: 123456`.
 
-## Endpoints
+### Endpoints
 
 | Método | Ruta | Descripción |
 |---|---|---|
@@ -31,16 +37,16 @@ Al arrancar se cargan 2 pólizas de ejemplo (`DataSeeder`). Swagger UI en http:/
 | POST | `/polizas/{id}/cancelar` | Cancelar (cascada a sus riesgos) |
 | POST | `/polizas/{id}/riesgos` | Agregar riesgo (solo tipo COLECTIVA) |
 | POST | `/riesgos/{id}/cancelar` | Cancelar un riesgo |
-| POST | `/core-mock/evento` | Mock del CORE legado — solo loguea el evento recibido |
+| POST | `/core-mock/evento` | Mock del CORE legado — solo registra el evento recibido |
 
-## Notas
+### Notas
 
-- El IPC de renovación es configurable en `application.properties` (`polizas.ipc-rate=0.05`).
+- El IPC de renovación es configurable en [`application.properties`](polizas-api/src/main/resources/application.properties) (`polizas.ipc-rate=0.05`).
 - El riesgo de una póliza individual se crea junto con la póliza; `POST /polizas/{id}/riesgos` es solo para colectivas.
 - Cancelar un riesgo ya cancelado es rechazado (HTTP 409).
 - La notificación al CORE ocurre después de confirmarse la transacción localmente.
 
-## Ejemplo: crear póliza individual
+### Ejemplo: crear póliza individual
 
 ```bash
 curl -X POST http://localhost:8080/polizas \
