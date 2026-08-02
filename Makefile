@@ -1,5 +1,7 @@
 .DEFAULT_GOAL := help
 
+APP_DIR := polizas-api
+
 help:
 	@echo "Available commands:"
 	@echo "  make build           Compile and package (skips tests)"
@@ -12,19 +14,19 @@ help:
 	@echo "  make docker-down     Stop the Docker Compose stack"
 
 build:
-	./mvnw clean package -DskipTests
+	cd $(APP_DIR) && ./mvnw clean package -DskipTests
 
 run:
-	./mvnw spring-boot:run
+	cd $(APP_DIR) && ./mvnw spring-boot:run
 
 test:
-	./mvnw test
+	cd $(APP_DIR) && ./mvnw test
 
 lint:
-	./mvnw spotless:check
+	cd $(APP_DIR) && ./mvnw spotless:check
 
 format:
-	./mvnw spotless:apply
+	cd $(APP_DIR) && ./mvnw spotless:apply
 
 docker-build:
 	docker compose build

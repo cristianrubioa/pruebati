@@ -1,5 +1,5 @@
 services:
   app:
-    build: .
+    build: ./polizas-api
     ports:
       - "8080:8080"
