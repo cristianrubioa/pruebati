@@ -2,12 +2,11 @@
 
 API de gestión de pólizas (Módulo 2 de la prueba técnica). Spring Boot 4 + Java 21, persistencia en memoria (H2), sin dependencias externas.
 
-El código vive en [`polizas-api/`](polizas-api); los comandos `make` de abajo se ejecutan desde ahí.
+El código vive en [`polizas-api/`](polizas-api); el `Makefile` de la raíz orquesta los comandos ahí dentro.
 
 ## Cómo correr
 
 ```bash
-cd polizas-api
 make run          # local, con ./mvnw spring-boot:run (puerto 8080)
 # o
 make docker-up    # vía Docker Compose
@@ -15,10 +14,15 @@ make docker-up    # vía Docker Compose
 
 Al arrancar se cargan 2 pólizas de ejemplo (una individual, una colectiva) — ver `DataSeeder`.
 
+## Documentación interactiva (Swagger)
+
+Con la app corriendo: http://localhost:8080/swagger-ui/index.html
+
+Usa el botón **Authorize** para pegar el `x-api-key` una sola vez y probar los endpoints desde el navegador. El JSON de OpenAPI está en `/v3/api-docs`.
+
 ## Cómo probar
 
 ```bash
-cd polizas-api
 make test     # ejecuta la suite (JUnit 5 + Mockito + AssertJ)
 make lint     # verifica formato (Spotless)
 make format   # aplica formato
